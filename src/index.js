@@ -10,6 +10,8 @@ app.use(express.json());
 
 const users = [];
 
+//teste
+
 function checksExistsUserAccount(request, response, next) {
   const { username } = request.headers;
 
