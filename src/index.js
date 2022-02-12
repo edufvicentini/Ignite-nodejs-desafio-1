@@ -32,7 +32,7 @@ function checkIfExistsTodoByID(request, response, next) {
   const todo = user.todos.find((todo) => todo.id === id)
 
   if (!todo)
-    return response.status(400).json({error: 'Todo do not Exists!'})   
+    return response.status(404).json({error: 'Todo not found!'})   
 
   request.todo = todo;
 
@@ -55,7 +55,7 @@ app.post('/users', (request, response) => {
   }
 
   users.push(newUser);
-  return response.status(200).send();
+  return response.status(200).json(newUser);
 
 });
 
@@ -79,7 +79,7 @@ app.post('/todos', checksExistsUserAccount, (request, response) => {
 
   user.todos.push(newTodo);
 
-  return response.status(201).send();
+  return response.status(201).json(newTodo);
 });
 
 app.put('/todos/:id', checksExistsUserAccount, checkIfExistsTodoByID, (request, response) => {
@@ -89,7 +89,7 @@ app.put('/todos/:id', checksExistsUserAccount, checkIfExistsTodoByID, (request, 
   todo.title = title;
   todo.deadline = new Date(deadline);
 
-  return response.status(201).send();
+  return response.status(201).json(todo);
 });
 
 app.patch('/todos/:id/done', checksExistsUserAccount, checkIfExistsTodoByID, (request, response) => {
@@ -97,7 +97,7 @@ app.patch('/todos/:id/done', checksExistsUserAccount, checkIfExistsTodoByID, (re
 
   todo.done = true;
 
-  return response.status(201).send();
+  return response.status(201).json(todo);
 });
 
 app.delete('/todos/:id', checksExistsUserAccount, checkIfExistsTodoByID, (request, response) => {
@@ -105,7 +105,7 @@ app.delete('/todos/:id', checksExistsUserAccount, checkIfExistsTodoByID, (reques
 
   user.todos.splice(user.todos.indexOf(todo), 1);
 
-  return response.status(204).send();
+  return response.status(204).json(user.todos);
   
 });
 
